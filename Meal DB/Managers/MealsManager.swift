@@ -13,6 +13,7 @@ class MealsManager {
     private let mealService: MealDBServiceProtocol
     
     var desserts: [Meal]? = nil
+    var selectedMealDetails: MealDetail? = nil
     
     init(mealService: MealDBServiceProtocol) {
         self.mealService = mealService
@@ -38,6 +39,7 @@ extension MealsManager {
         Task {
             do {
                 let details = try await mealService.getMealDetailsById(id: mealId)
+                self.selectedMealDetails = details
             } catch (let error) {
                 print("Error getting meal details: \(error)")
             }

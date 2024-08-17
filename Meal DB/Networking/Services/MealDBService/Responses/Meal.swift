@@ -17,4 +17,10 @@ struct Meal: Codable, Hashable {
         case thumbnailUrl = "strMealThumb"
         case id = "idMeal"
     }
+    
+    static let testMeal = Meal(
+        name: "Apple & Blackberry Crumble",
+        thumbnailUrl: "https://www.themealdb.com/images/media/meals/xvsurr1511719182.jpg",
+        id: "52893"
+    )
 }
