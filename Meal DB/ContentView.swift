@@ -8,12 +8,26 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var mealsManager = MealsManager(mealService: MealDBService())
+    
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            Text("Desserts")
+                .font(.largeTitle)
+            if let desserts = mealsManager.desserts {
+                List {
+                    ForEach(desserts, id: \.self) { dessert in
+                        Text(dessert.name)
+                    }
+                }
+                .listStyle(.plain)
+            } else {
+                Text("No desserts available")
+                Spacer()
+            }
+        }
+        .task {
+            mealsManager.fetchDesserts()
         }
         .padding()
     }
