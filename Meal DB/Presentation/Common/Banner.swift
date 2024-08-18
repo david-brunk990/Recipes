@@ -27,7 +27,11 @@ struct Banner: View {
             }
             .padding()
         }
-        .background(RoundedRectangle(cornerRadius: 4).foregroundStyle(bannerColor))
+        .background(
+            RoundedRectangle(cornerRadius: 4)
+                .foregroundStyle(bannerColor)
+                .shadow(color: BrandColor.shadoColor, radius: 4)
+        )
     }
 }
 

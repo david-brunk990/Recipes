@@ -14,23 +14,9 @@ struct DessertsView: View {
         NavigationStack {
             VStack {
                 if mealsManager.state == .fetchDessertsError {
-                    Banner(title: "Error getting desserts", bannerColor: .red) {
-                        withAnimation {
-                            mealsManager.state = .normal
-                        }
-                    }
-                    .unredacted()
+                    errorBanner
                 }
-                List {
-                    ForEach(mealsManager.desserts ?? Meal.testMeals, id: \.self) { dessert in
-                        NavigationLink(destination: MealDetailView(meal: dessert).environment(mealsManager)) {
-                            DessertsListCell(meal: dessert)
-                        }
-                    }
-                    .listRowBackground(BrandColor.background)
-                    .listRowSeparator(.hidden)
-                }
-                .listStyle(.plain)
+                dessertsList
             }
             .redacted(reason: mealsManager.desserts == nil ? .placeholder : [])
             .task {
@@ -41,6 +27,31 @@ struct DessertsView: View {
             .navigationTitle("Desserts")
             .navigationBarTitleDisplayMode(.automatic)
         }
+    }
+}
+
+// MARK: Subviews
+extension DessertsView {
+    private var errorBanner: some View {
+        Banner(title: "Error getting desserts", bannerColor: .red) {
+            withAnimation {
+                mealsManager.state = .normal
+            }
+        }
+        .unredacted()
+    }
+    
+    private var dessertsList: some View {
+        List {
+            ForEach(mealsManager.desserts ?? Meal.testMeals, id: \.self) { dessert in
+                NavigationLink(destination: MealDetailView(meal: dessert).environment(mealsManager)) {
+                    DessertsListCell(meal: dessert)
+                }
+            }
+            .listRowBackground(BrandColor.background)
+            .listRowSeparator(.hidden)
+        }
+        .listStyle(.plain)
     }
 }
 
