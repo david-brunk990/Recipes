@@ -8,5 +8,5 @@
 import Foundation
 
 enum MealDBServiceError: Error {
-    case buildRequest, unknown
+    case buildRequest, emptyData, unknown
 }

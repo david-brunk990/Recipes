@@ -60,6 +60,7 @@ struct MealDetail: Codable {
     let measure19: String
     let measure20: String
     
+    // MARK: Init
     init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(String.self, forKey: .id)

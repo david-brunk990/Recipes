@@ -18,7 +18,6 @@ class MealDBService: MealDBServiceProtocol {
             let response = try await request(endpoint: .getMealsWithCategory(category: .Dessert), responseType: GetMealsWithCategory.self)
             return response.meals
         } catch(let error) {
-            print("Error getting meals: \(error)")
             throw error
         }
     }
@@ -27,7 +26,7 @@ class MealDBService: MealDBServiceProtocol {
         do {
             let response = try await request(endpoint: .getMealDetailsById(id: id), responseType: GetMealDetailsById.self)
             if response.meals.isEmpty {
-                throw MealDBServiceError.unknown
+                throw MealDBServiceError.emptyData
             } else {
                 return response.meals.first!
             }
@@ -39,7 +38,6 @@ class MealDBService: MealDBServiceProtocol {
     // MARK: Private Methods
     private func request<ResponseType: Codable>(endpoint: MealDBEndpoint, responseType: ResponseType.Type) async throws -> ResponseType {
         guard let request = buildRequest(for: endpoint) else { throw MealDBServiceError.buildRequest }
-        print("URL: \(request.url)")
         let (data, response) = try await URLSession.shared.data(for: request)
         if let response = response as? HTTPURLResponse {
             do {
@@ -55,7 +53,7 @@ class MealDBService: MealDBServiceProtocol {
     
     private func buildRequest(for endpoint: MealDBEndpoint) -> URLRequest? {
         let urlString = baseUrl + endpoint.rawValue
-        guard var components = URLComponents(string: urlString) else { return nil }
+        guard let components = URLComponents(string: urlString) else { return nil }
         guard let url = components.url else { return nil }
         var request = URLRequest(url: url)
         request.httpMethod = endpoint.httpMethod.rawValue

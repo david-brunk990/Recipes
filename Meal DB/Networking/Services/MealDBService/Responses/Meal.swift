@@ -23,4 +23,16 @@ struct Meal: Codable, Hashable {
         thumbnailUrl: "https://www.themealdb.com/images/media/meals/xvsurr1511719182.jpg",
         id: "52893"
     )
+    
+    static let testMeals = [
+        Meal(
+            name: "Apple & Blackberry Crumble",
+            thumbnailUrl: "https://www.themealdb.com/images/media/meals/xvsurr1511719182.jpg",
+            id: "52893"),
+        Meal(
+            name: "Apam balik",
+            thumbnailUrl: "https://www.themealdb.com/images/media/meals/adxcbq1619787919.jpg",
+            id: "53049"
+        )
+    ]
 }
