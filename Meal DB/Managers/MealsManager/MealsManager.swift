@@ -42,16 +42,13 @@ extension MealsManager {
     /**
      Invokes a `MealDBServiceProtocol` to fetch all desserts from MealDB API and assign to `self.desserts`. If the request is not successful, `MealsManager.state` is set to `.fetchDessertsError`
      */
-    @MainActor
-    func fetchDesserts() {
-        Task {
-            do {
-                let desserts = try await mealService.getMealsWithCategory(category: .Dessert)
-                self.desserts = desserts
-            } catch (let error) {
-                print("Error fetching desserts: \(error)")
-                state = .fetchDessertsError
-            }
+    func fetchDesserts() async {
+        do {
+            let desserts = try await mealService.getMealsWithCategory(category: .Dessert)
+            self.desserts = desserts
+        } catch (let error) {
+            print("Error fetching desserts: \(error)")
+            self.state = .fetchDessertsError
         }
     }
     
@@ -59,16 +56,13 @@ extension MealsManager {
      Invokes a `MealDBServiceProtocol` to fetch details of a meal from MealDB API and assign to `self.selectedMealDetails`. If the request is not successful, `MealsManager.state` is set to `.fetchMealDetailsError`
      - Parameter mealId: A `String` representing the id of the meal
      */
-    @MainActor
-    func fetchMealDetails(mealId: String) {
-        Task {
-            do {
-                let details = try await mealService.getMealDetailsById(id: mealId)
-                self.selectedMealDetails = details
-            } catch (let error) {
-                print("Error fetching meal details: \(error)")
-                state = .fetchMealDetailsError
-            }
+    func fetchMealDetails(mealId: String) async {
+        do {
+            let details = try await mealService.getMealDetailsById(id: mealId)
+            self.selectedMealDetails = details
+        } catch (let error) {
+            print("Error fetching meal details: \(error)")
+            state = .fetchMealDetailsError
         }
     }
 }

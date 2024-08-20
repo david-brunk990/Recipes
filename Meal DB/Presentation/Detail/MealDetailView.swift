@@ -69,7 +69,7 @@ struct MealDetailView: View {
             mealsManager.resetMealDetails()
         }
         .task {
-            mealsManager.fetchMealDetails(mealId: meal.id)
+            await mealsManager.fetchMealDetails(mealId: meal.id)
         }
         .ignoresSafeArea(edges: .top)
     }

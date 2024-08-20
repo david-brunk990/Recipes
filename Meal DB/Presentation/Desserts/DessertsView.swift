@@ -20,7 +20,7 @@ struct DessertsView: View {
             }
             .redacted(reason: mealsManager.desserts == nil ? .placeholder : [])
             .task {
-                mealsManager.fetchDesserts()
+                await mealsManager.fetchDesserts()
             }
             .padding([.leading, .trailing], 8)
             .background(BrandColor.background)
@@ -54,7 +54,7 @@ extension DessertsView {
             .padding()
         }
         .refreshable {
-            mealsManager.fetchDesserts()
+            await mealsManager.fetchDesserts()
         }
     }
 }
