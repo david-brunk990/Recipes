@@ -16,7 +16,7 @@ struct DessertsView: View {
                 if mealsManager.state == .fetchDessertsError {
                     errorBanner
                 }
-                dessertsList
+                dessertsStack
             }
             .redacted(reason: mealsManager.desserts == nil ? .placeholder : [])
             .task {
@@ -41,17 +41,21 @@ extension DessertsView {
         .unredacted()
     }
     
-    private var dessertsList: some View {
-        List {
-            ForEach(mealsManager.desserts ?? Meal.testMeals, id: \.self) { dessert in
-                NavigationLink(destination: MealDetailView(meal: dessert).environment(mealsManager)) {
-                    DessertsListCell(meal: dessert)
+    private var dessertsStack: some View {
+        ScrollView {
+            LazyVStack(alignment: .leading, spacing: 20) {
+                ForEach(mealsManager.desserts?.sorted(by: { $0.name < $1.name }) ?? Meal.testMeals, id: \.self) { dessert in
+                    NavigationLink(destination: MealDetailView(meal: dessert).environment(mealsManager)) {
+                        DessertsListCell(meal: dessert)
+                    }
                 }
             }
-            .listRowBackground(BrandColor.background)
-            .listRowSeparator(.hidden)
+            .foregroundStyle(.black)
+            .padding()
         }
-        .listStyle(.plain)
+        .refreshable {
+            mealsManager.fetchDesserts()
+        }
     }
 }
 

@@ -5,7 +5,7 @@
 //  Created by DJ A on 8/16/24.
 //
 
-// TODO - Error states, dark mode/themeing 
+// TODO - Improve image loading, testing
 
 import SwiftUI
 
